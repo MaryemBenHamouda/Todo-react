@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import './App.css';
 import { Button } from 'react-bootstrap'
+import{v4 as uuidv4} from 'uuid'
 
 class App extends Component{
   constructor(props){
@@ -21,18 +22,18 @@ class App extends Component{
   };
     addNewName = () => {
       this.setState({
-        toDo:this.state.toDo.concat({name: this.state.text, test: false}),text:""
+        toDo:this.state.toDo.concat({id:uuidv4(),name: this.state.text, test: false}),text:""
       });
     };
-    complete =nom=>{
+    complete =id=>{
       this.setState({
-        toDo:this.state.toDo.map(el=> el.name===nom?{...el,test:!el.test}:el)
+        toDo:this.state.toDo.map(el=> el.id===id?{...el,test:!el.test}:el)
       })
     };
 
-    deletes = nom =>{
+    deletes = id =>{
       this.setState({
-        toDo:this.state.toDo.filter(el=> el.name!==nom)
+        toDo:this.state.toDo.filter(el=> el.id!==id)
           
         })
     }
@@ -60,8 +61,8 @@ class App extends Component{
         <div class="container list">
 
             {this.state.toDo.map(el=> <div className="boutton">
-                <Button className="btn" onClick={()=>this.complete(el.name)} variant="success">{el.test? "Undo":"Complete"}</Button>
-                <Button className="btn"  onClick={()=>this.deletes(el.name)} variant="danger">Delete</Button> 
+                <Button className="btn" onClick={()=>this.complete(el.id)} variant="success">{el.test? "Undo":"Complete"}</Button>
+                <Button className="btn"  onClick={()=>this.deletes(el.id)} variant="danger">Delete</Button> 
                 <h4 className={el.test ?"inder" :"btn"}>{el.name}</h4>         
               </div>
             )}
