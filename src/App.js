@@ -1,0 +1,77 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { Component } from 'react';
+import './App.css';
+import { Button } from 'react-bootstrap'
+
+class App extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      toDo:[],
+      text:"",
+      todos:[],
+      inpute:""
+     
+    }
+  }
+  handleChange = e => {
+    this.setState({
+      text: e.target.value
+    });
+  };
+    addNewName = () => {
+      this.setState({
+        toDo:this.state.toDo.concat({name: this.state.text, test: false}),text:""
+      });
+    };
+    complete =nom=>{
+      this.setState({
+        toDo:this.state.toDo.map(el=> el.name===nom?{...el,test:!el.test}:el)
+      })
+    };
+
+    deletes = nom =>{
+      this.setState({
+        toDo:this.state.toDo.filter(el=> el.name!==nom)
+          
+        })
+    }
+
+      
+
+    
+  render(){
+     
+      return (
+        <div className="App">
+          <div className="container header">
+            <div className="titre">
+                  <h1>TO-DO App!</h1>
+                  <h4>Add New To DO</h4>
+            </div>
+            <div className="input">
+                  <input type="text" class="form-control" name="text" value={this.state.text} placeholder="Enter Your texte" onChange={this.handleChange} aria-label="Username" aria-describedby="addon-wrapping"/>
+            </div>      
+            <div className="add">
+                  <button type="button" class="btn btn-primary" onClick={this.addNewName}> Add</button>
+            </div>
+          </div>  
+          <h4>Lest's Get Some Work Done</h4>  
+        <div class="container list">
+
+            {this.state.toDo.map(el=> <div className="boutton">
+                <Button className="btn" onClick={()=>this.complete(el.name)} variant="success">{el.test? "Undo":"Complete"}</Button>
+                <Button className="btn"  onClick={()=>this.deletes(el.name)} variant="danger">Delete</Button> 
+                <h4 className={el.test ?"inder" :"btn"}>{el.name}</h4>         
+              </div>
+            )}
+        
+        </div>
+       
+        
+        </div>
+      );
+  }
+}
+
+export default App;
